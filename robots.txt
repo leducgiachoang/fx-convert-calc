@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fxconvertcalc.leducgiachoang.com/sitemap.xml

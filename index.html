@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ── Primary SEO ── -->
+  <title>FX Convert &amp; Calc — Free Currency Converter &amp; Exchange Rate Calculator for Chrome</title>
+  <meta name="description" content="Free Chrome extension for instant currency conversion, multi-currency rates, and scientific calculator. 170+ currencies, 55 languages, real-time rates. No account needed." />
+  <meta name="keywords" content="currency converter, exchange rate calculator, chrome extension, real-time exchange rates, multi currency converter, forex calculator, USD EUR converter, scientific calculator chrome, side panel currency, free currency app, FX Convert Calc, international money converter, currency exchange chrome extension" />
+  <meta name="author" content="Le Duc Gia Hoang" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://fxconvertcalc.leducgiachoang.com/" />
+
+  <!-- ── Open Graph ── -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://fxconvertcalc.leducgiachoang.com/" />
+  <meta property="og:title"       content="FX Convert &amp; Calc — Free Currency Converter for Chrome" />
+  <meta property="og:description" content="Instant currency conversion, multi-currency rates, and scientific calculator in one Chrome extension. 170+ currencies, 55 languages, 100% free." />
+  <meta property="og:image"       content="https://fxconvertcalc.leducgiachoang.com/icon128.png" />
+  <meta property="og:locale"      content="en_US" />
+  <meta property="og:site_name"   content="FX Convert &amp; Calc" />
+
+  <!-- ── Twitter Card ── -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="FX Convert &amp; Calc — Free Currency Converter for Chrome" />
+  <meta name="twitter:description" content="Instant currency conversion, multi-currency rates &amp; scientific calculator. 170+ currencies, 55 languages, 100% free." />
+  <meta name="twitter:image"       content="https://fxconvertcalc.leducgiachoang.com/icon128.png" />
+
+  <!-- ── Favicon ── -->
+  <link rel="icon" type="image/png" href="icon128.png" />
+
+  <!-- ── Fonts & Icons ── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- ── Structured Data ── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "FX Convert & Calc",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Chrome",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "Free Chrome extension for instant currency conversion, multi-currency rates, and scientific calculator. Supports 170+ currencies and 55 languages.",
+    "url": "https://chromewebstore.google.com/detail/fx-convert-calc/cpkngmbkfakjfdnocnpmniiodfaeiiei",
+    "image": "https://fxconvertcalc.leducgiachoang.com/icon128.png",
+    "author": {
+      "@type": "Person",
+      "name": "Le Duc Gia Hoang",
+      "email": "leducgiachoang13@gmail.com"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5",
+      "ratingCount": "1"
+    }
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:     #07030f;
+      --bg2:    #0e0720;
+      --card:   #130c28;
+      --border: rgba(255,255,255,0.08);
+      --gold:   #ffa000;
+      --gold2:  #ffd080;
+      --purple: #7c3aed;
+      --lilac:  #a78bfa;
+      --text:   #f0eafa;
+      --muted:  rgba(240,234,250,0.5);
+      --radius: 16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 68px;
+      background: rgba(7,3,15,0.88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 800; font-size: 16px; letter-spacing: -0.3px;
+    }
+
+    .nav-logo img {
+      width: 36px; height: 36px; border-radius: 10px;
+      object-fit: cover;
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 9px;
+      padding: 10px 22px; border-radius: 10px;
+      font-size: 14px; font-weight: 700; cursor: pointer;
+      border: none; transition: all .2s; text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ffa000, #ff6f00);
+      color: #07030f;
+      box-shadow: 0 4px 20px rgba(255,160,0,.3);
+    }
+    .btn-primary:hover { opacity: .88; transform: translateY(-1px); box-shadow: 0 6px 28px rgba(255,160,0,.4); }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 94vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 80px 5%;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 0%, rgba(124,58,237,.18) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 80% 60%, rgba(255,160,0,.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 7px 16px; border-radius: 999px;
+      background: rgba(255,160,0,.1);
+      border: 1px solid rgba(255,160,0,.25);
+      font-size: 12px; font-weight: 600; color: var(--gold);
+      margin-bottom: 30px; position: relative;
+    }
+
+    .badge-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--gold);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: .5; transform: scale(1.5); }
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 6.5vw, 76px);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -2.5px;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .hero h1 .line-gold {
+      background: linear-gradient(135deg, #ffd080 0%, #ffa000 60%, #ff6f00 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      max-width: 580px;
+      font-size: 18px;
+      color: var(--muted);
+      margin-bottom: 42px;
+      line-height: 1.75;
+      position: relative;
+    }
+
+    .hero-actions {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      justify-content: center; margin-bottom: 70px;
+      position: relative;
+    }
+
+    .hero-actions .btn { padding: 15px 32px; font-size: 15px; border-radius: 12px; }
+
+    .hero-stats {
+      display: flex; gap: 48px; flex-wrap: wrap;
+      justify-content: center; position: relative;
+    }
+
+    .stat { text-align: center; }
+    .stat-num {
+      font-size: 30px; font-weight: 900;
+      background: linear-gradient(135deg, #ffd080, #ffa000);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -1px;
+    }
+    .stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; font-weight: 500; }
+
+    /* ── SECTIONS ── */
+    section { padding: 90px 5%; }
+
+    .section-tag {
+      display: inline-block;
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-size: clamp(26px, 4vw, 44px);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      font-size: 16px; color: var(--muted);
+      max-width: 540px; margin: 0 auto 56px;
+      line-height: 1.7;
+    }
+
+    .center { text-align: center; }
+
+    /* ── FEATURES ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 20px;
+      max-width: 1100px; margin: 0 auto;
+    }
+
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(255,160,0,.3);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(255,160,0,.07);
+    }
+
+    .feature-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 20px;
+    }
+
+    .ic-gold   { background: rgba(255,160,0,.12);   color: var(--gold); }
+    .ic-purple { background: rgba(124,58,237,.12);  color: var(--lilac); }
+    .ic-lilac  { background: rgba(167,139,250,.12); color: #c4b5fd; }
+    .ic-pink   { background: rgba(236,72,153,.12);  color: #f472b6; }
+
+    .feature-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+    .feature-card p  { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+    /* ── STEPS ── */
+    .steps-bg { background: var(--bg2); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 30px; max-width: 1000px; margin: 0 auto;
+    }
+
+    .step { text-align: center; padding: 32px 24px; }
+
+    .step-num {
+      width: 58px; height: 58px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--purple));
+      color: #fff; font-size: 22px; font-weight: 900;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 22px;
+      box-shadow: 0 4px 20px rgba(255,160,0,.25);
+    }
+
+    .step-icon { font-size: 24px; }
+    .step h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+    .step p  { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+    /* ── WHY CHOOSE ── */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px; max-width: 1100px; margin: 0 auto;
+    }
+
+    .why-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 20px;
+      display: flex; align-items: flex-start; gap: 12px;
+      transition: border-color .2s;
+    }
+
+    .why-item:hover { border-color: rgba(255,160,0,.25); }
+
+    .why-check {
+      flex-shrink: 0;
+      width: 24px; height: 24px; border-radius: 7px;
+      background: rgba(255,160,0,.15);
+      color: var(--gold); font-size: 11px;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 1px;
+    }
+
+    .why-text { font-size: 14px; font-weight: 600; line-height: 1.5; color: var(--text); }
+
+    /* ── LANGUAGES ── */
+    .lang-section { background: var(--bg2); }
+
+    .lang-pills {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      justify-content: center; max-width: 900px; margin: 0 auto;
+    }
+
+    .lang-pill {
+      padding: 7px 14px; border-radius: 999px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      font-size: 13px; font-weight: 500; color: var(--muted);
+      transition: border-color .2s, color .2s;
+    }
+    .lang-pill:hover { border-color: rgba(255,160,0,.25); color: var(--text); }
+
+    /* ── CTA ── */
+    .cta-section {
+      text-align: center;
+      background: linear-gradient(135deg, rgba(255,160,0,.05) 0%, rgba(124,58,237,.06) 100%);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cta-section h2 { font-size: clamp(28px, 4vw, 52px); font-weight: 900; letter-spacing: -1.5px; margin-bottom: 14px; }
+    .cta-section p  { font-size: 16px; color: var(--muted); margin-bottom: 36px; }
+    .cta-section .btn { padding: 17px 44px; font-size: 16px; border-radius: 14px; }
+
+    /* ── FOOTER ── */
+    footer { padding: 48px 5% 34px; border-top: 1px solid var(--border); }
+
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; gap: 20px;
+      align-items: center; justify-content: space-between;
+    }
+
+    .footer-logo { font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 9px; }
+    .footer-logo img { width: 28px; height: 28px; border-radius: 8px; }
+
+    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-links a { font-size: 13px; color: var(--muted); transition: color .2s; }
+    .footer-links a:hover { color: var(--text); }
+
+    .footer-copy { font-size: 12px; color: var(--muted); width: 100%; text-align: center; margin-top: 16px; }
+
+    /* ── MOBILE: tablet ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      nav .btn { padding: 9px 16px; font-size: 13px; }
+      .nav-logo { font-size: 14px; }
+      .nav-logo img { width: 30px; height: 30px; }
+
+      .hero { min-height: auto; padding: 56px 5% 52px; }
+      .hero h1 { letter-spacing: -1.5px; }
+      .hero-sub { font-size: 16px; margin-bottom: 32px; }
+      .hero-actions { flex-direction: column; align-items: stretch; width: 100%; max-width: 340px; margin-left: auto; margin-right: auto; margin-bottom: 48px; }
+      .hero-actions .btn { width: 100%; justify-content: center; padding: 14px 24px; }
+      .hero-stats { gap: 24px; }
+
+      section { padding: 60px 5%; }
+      .section-sub { margin-bottom: 36px; }
+
+      .feature-card { padding: 24px 20px; }
+
+      .step { padding: 24px 16px; }
+
+      .cta-section p { font-size: 15px; margin-bottom: 28px; }
+      .cta-section .btn { padding: 14px 32px; font-size: 15px; }
+
+      .footer-inner { flex-direction: column; align-items: center; text-align: center; gap: 14px; }
+      .footer-links { justify-content: center; }
+      .footer-copy { margin-top: 8px; }
+    }
+
+    /* ── MOBILE: small phone ── */
+    @media (max-width: 480px) {
+      nav { padding: 0 4%; height: 60px; }
+      .nav-logo-text { display: none; }
+
+      .hero { padding: 48px 4% 44px; }
+      .hero-badge { font-size: 11px; padding: 6px 12px; flex-wrap: wrap; justify-content: center; text-align: center; }
+      .hero h1 { letter-spacing: -1px; }
+      .hero-sub { font-size: 15px; }
+      .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 16px; width: 100%; max-width: 280px; margin-left: auto; margin-right: auto; }
+      .stat-num { font-size: 26px; }
+
+      section { padding: 52px 4%; }
+
+      .features-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+
+      .why-grid { grid-template-columns: 1fr; }
+
+      .lang-pill { font-size: 12px; padding: 6px 11px; }
+
+      .cta-section .btn { width: 100%; max-width: 300px; justify-content: center; }
+
+      footer { padding: 36px 4% 28px; }
+      .footer-links { gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="icon128.png" alt="FX Convert &amp; Calc logo" width="36" height="36" />
+    <span class="nav-logo-text">FX Convert &amp; Calc</span>
+  </div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how-it-works">How it works</a>
+    <a href="#why">Why us</a>
+    <a href="#languages">Languages</a>
+    <a href="privacy-policy.html">Privacy</a>
+    <a href="terms-of-service.html">Terms</a>
+  </div>
+  <a href="https://chromewebstore.google.com/detail/fx-convert-calc/cpkngmbkfakjfdnocnpmniiodfaeiiei"
+     target="_blank" rel="noopener" class="btn btn-primary">
+    <i class="fa-brands fa-chrome"></i> Add to Chrome
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">
+    <div class="badge-dot"></div>
+    Free &nbsp;·&nbsp; No account needed &nbsp;·&nbsp; Chrome Side Panel
+  </div>
+
+  <h1>
+    Convert Currency &amp;<br/>
+    <span class="line-gold">Calculate Exchange Rates</span><br/>
+    in Your Browser
+  </h1>
+
+  <p class="hero-sub">
+    FX Convert &amp; Calc is a free, lightweight Chrome extension for instant currency conversions,
+    multi-rate lookups, and a built-in scientific calculator — without leaving your current tab.
+  </p>
+
+  <div class="hero-actions">
+    <a href="https://chromewebstore.google.com/detail/fx-convert-calc/cpkngmbkfakjfdnocnpmniiodfaeiiei"
+       target="_blank" rel="noopener" class="btn btn-primary">
+      <i class="fa-brands fa-chrome"></i> Add to Chrome — Free
+    </a>
+    <a href="#features" class="btn btn-outline">
+      <i class="fa-solid fa-circle-info"></i> See Features
+    </a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">170+</div>
+      <div class="stat-label">Currencies</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">55</div>
+      <div class="stat-label">Languages</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">9</div>
+      <div class="stat-label">Simultaneous Rates</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Free Forever</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="center">
+    <span class="section-tag">Features</span>
+    <h2 class="section-title">Everything you need for currency &amp; calculation</h2>
+    <p class="section-sub">All financial tools in one compact Chrome extension — always at your fingertips.</p>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon ic-gold">
+        <i class="fa-solid fa-arrow-right-arrow-left"></i>
+      </div>
+      <h3>Instant Currency Conversion</h3>
+      <p>Convert between 170+ international currencies with real-time exchange rates. From USD, EUR, GBP, JPY to rare and exotic currencies — all in one place.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon ic-purple">
+        <i class="fa-solid fa-table-cells-large"></i>
+      </div>
+      <h3>Multi-Currency Conversion</h3>
+      <p>Enter one amount and instantly see conversions to up to 9 currencies simultaneously. Perfect for forex traders, international shoppers, and frequent travelers.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon ic-lilac">
+        <i class="fa-solid fa-calculator"></i>
+      </div>
+      <h3>Built-in Scientific Calculator</h3>
+      <p>A full scientific calculator with sin, cos, tan, log, ln, square root, exponents, and more. Results are automatically converted to your selected currency.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon ic-pink">
+        <i class="fa-solid fa-star"></i>
+      </div>
+      <h3>Smart History &amp; Favorites</h3>
+      <p>All conversions and calculations are saved automatically. Bookmark your most-used currency pairs for instant one-tap access.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon ic-gold">
+        <i class="fa-solid fa-globe"></i>
+      </div>
+      <h3>55 Languages Supported</h3>
+      <p>Switch the interface language in-app instantly — no reinstall needed. English, Vietnamese, Chinese, Japanese, Arabic, Hindi, and 49 more.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon ic-purple">
+        <i class="fa-solid fa-window-restore"></i>
+      </div>
+      <h3>Chrome Side Panel</h3>
+      <p>Lives in Chrome's built-in Side Panel — always visible alongside any webpage. Convert rates without switching tabs or opening a popup.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works" class="steps-bg">
+  <div class="center">
+    <span class="section-tag">Quick Start</span>
+    <h2 class="section-title">Up and running in 3 steps</h2>
+    <p class="section-sub">No account, no sign-up. Install and start converting immediately.</p>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">
+        <i class="fa-brands fa-chrome step-icon"></i>
+      </div>
+      <h3>Install the Extension</h3>
+      <p>Click "Add to Chrome" in the Chrome Web Store. The extension installs in seconds — no account or registration required.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">
+        <i class="fa-solid fa-table-columns step-icon" style="font-size:20px;"></i>
+      </div>
+      <h3>Open the Side Panel</h3>
+      <p>Click the FX Convert &amp; Calc icon in your Chrome toolbar to open the Side Panel. It stays visible alongside any webpage you browse.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">
+        <i class="fa-solid fa-right-left step-icon" style="font-size:20px;"></i>
+      </div>
+      <h3>Convert &amp; Calculate</h3>
+      <p>Enter any amount, choose your currencies, and get instant results. Use the calculator tab to perform expressions with automatic currency conversion.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE -->
+<section id="why">
+  <div class="center">
+    <span class="section-tag">Why us</span>
+    <h2 class="section-title">Why choose FX Convert &amp; Calc?</h2>
+    <p class="section-sub">Built to be fast, private, and genuinely useful — with zero compromises.</p>
+  </div>
+
+  <div class="why-grid">
+    <div class="why-item">
+      <div class="why-check"><i class="fa-solid fa-check"></i></div>
+      <div class="why-text">100% free, no ads, no hidden fees</div>
+    </div>
+    <div class="why-item">
+      <div class="why-check"><i class="fa-solid fa-check"></i></div>
+      <div class="why-text">Ultra-lightweight — won't slow down Chrome</div>
+    </div>
+    <div class="why-item">
+      <div class="why-check"><i class="fa-solid fa-check"></i></div>
+      <div class="why-text">No account required, no sensitive permissions</div>
+    </div>
+    <div class="why-item">
+      <div class="why-check"><i class="fa-solid fa-check"></i></div>
+      <div class="why-text">Works in Chrome's native Side Panel</div>
+    </div>
+    <div class="why-item">
+      <div class="why-check"><i class="fa-solid fa-check"></i></div>
+      <div class="why-text">Real-time rates, always up to date</div>
+    </div>
+    <div class="why-item">
+      <div class="why-check"><i class="fa-solid fa-check"></i></div>
+      <div class="why-text">Dark UI, easy on eyes day and night</div>
+    </div>
+    <div class="why-item">
+      <div class="why-check"><i class="fa-solid fa-check"></i></div>
+      <div class="why-text">Multi-currency view up to 9 pairs at once</div>
+    </div>
+    <div class="why-item">
+      <div class="why-check"><i class="fa-solid fa-check"></i></div>
+      <div class="why-text">Long-term support with regular updates</div>
+    </div>
+  </div>
+</section>
+
+<!-- LANGUAGES -->
+<section id="languages" class="lang-section">
+  <div class="center">
+    <span class="section-tag">Localization</span>
+    <h2 class="section-title">55 languages, fully supported</h2>
+    <p class="section-sub">Switch the entire interface language with one tap — no reinstall needed.</p>
+  </div>
+
+  <div class="lang-pills">
+    <span class="lang-pill">English</span>
+    <span class="lang-pill">Tiếng Việt</span>
+    <span class="lang-pill">中文（简体）</span>
+    <span class="lang-pill">中文（繁體）</span>
+    <span class="lang-pill">日本語</span>
+    <span class="lang-pill">한국어</span>
+    <span class="lang-pill">Español</span>
+    <span class="lang-pill">Português</span>
+    <span class="lang-pill">Français</span>
+    <span class="lang-pill">Deutsch</span>
+    <span class="lang-pill">Italiano</span>
+    <span class="lang-pill">Русский</span>
+    <span class="lang-pill">العربية</span>
+    <span class="lang-pill">हिन्दी</span>
+    <span class="lang-pill">বাংলা</span>
+    <span class="lang-pill">Bahasa Indonesia</span>
+    <span class="lang-pill">Bahasa Melayu</span>
+    <span class="lang-pill">ภาษาไทย</span>
+    <span class="lang-pill">Türkçe</span>
+    <span class="lang-pill">Nederlands</span>
+    <span class="lang-pill">Polski</span>
+    <span class="lang-pill">Svenska</span>
+    <span class="lang-pill">Dansk</span>
+    <span class="lang-pill">Suomi</span>
+    <span class="lang-pill">Norsk</span>
+    <span class="lang-pill">Čeština</span>
+    <span class="lang-pill">Slovenčina</span>
+    <span class="lang-pill">Magyar</span>
+    <span class="lang-pill">Română</span>
+    <span class="lang-pill">Български</span>
+    <span class="lang-pill">Hrvatski</span>
+    <span class="lang-pill">Srpski</span>
+    <span class="lang-pill">Українська</span>
+    <span class="lang-pill">Ελληνικά</span>
+    <span class="lang-pill">עברית</span>
+    <span class="lang-pill">فارسی</span>
+    <span class="lang-pill">اردو</span>
+    <span class="lang-pill">தமிழ்</span>
+    <span class="lang-pill">తెలుగు</span>
+    <span class="lang-pill">ಕನ್ನಡ</span>
+    <span class="lang-pill">മലയാളം</span>
+    <span class="lang-pill">ગુજરાતી</span>
+    <span class="lang-pill">ਪੰਜਾਬੀ</span>
+    <span class="lang-pill">मराठी</span>
+    <span class="lang-pill">नेपाली</span>
+    <span class="lang-pill">සිංහල</span>
+    <span class="lang-pill">မြန်မာ</span>
+    <span class="lang-pill">ភាសាខ្មែរ</span>
+    <span class="lang-pill">ພາສາລາວ</span>
+    <span class="lang-pill">Монгол</span>
+    <span class="lang-pill">Қазақша</span>
+    <span class="lang-pill">Oʻzbekcha</span>
+    <span class="lang-pill">Azərbaycan</span>
+    <span class="lang-pill">Kiswahili</span>
+    <span class="lang-pill">Afrikaans</span>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <span class="section-tag">Get Started</span>
+  <h2>Start converting smarter today</h2>
+  <p>Free forever. No account. No ads. Just fast, accurate exchange rates.</p>
+  <a href="https://chromewebstore.google.com/detail/fx-convert-calc/cpkngmbkfakjfdnocnpmniiodfaeiiei"
+     target="_blank" rel="noopener" class="btn btn-primary">
+    <i class="fa-brands fa-chrome"></i> Add to Chrome — Free
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <img src="icon128.png" alt="FX Convert &amp; Calc" width="28" height="28" />
+      FX Convert &amp; Calc
+    </div>
+    <div class="footer-links">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms-of-service.html">Terms of Service</a>
+      <a href="mailto:leducgiachoang13@gmail.com">Contact</a>
+    </div>
+    <p class="footer-copy">© 2025 FX Convert &amp; Calc. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>
